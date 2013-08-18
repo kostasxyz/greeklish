@@ -23,18 +23,19 @@ Now add the alias.
 
 ## Usage
 
-1. Make Slug.
+-- Make Slug.
 
     `$text = 'Γεια σου Κόσμε';`
-    `Greeklish::slug($text)`
+    `Greeklish::make($text)`
 
     Will make:
     `geia-sou-kosme`
 
-2. Just greeklish
 
-    `$text = 'Γεια σου Κόσμε';`
-    `Greeklish::text($text)`
+-- Extra arguments.
 
-    Will make:
-    `Geia sou Kosme`
+    `Greeklish::make($text, true)`
+    will remove one letter words
+
+    `Greeklish::make($text, false, true)`
+    will remove two letter words
