@@ -39,3 +39,5 @@ Now add the alias.
 
     `Greeklish::make($text, false, true)`
     will remove two letter words
+
+--
