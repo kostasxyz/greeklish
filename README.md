@@ -11,7 +11,7 @@ Run `composer update` to pull down the latest version.
 Now open up `app/config/app.php` and add the service provider to your `providers` array.
 
     'providers' => array(
-        'Skapator\Greeklish\GreeklishServicessProvider',
+        'Skapator\Greeklish\GreeklishServiceProvider',
     )
 
 Now add the alias.
