@@ -9,7 +9,7 @@ To install through composer, simply put the following in your `composer.json` fi
 ```json
 {
 	"require": {
-		"skapator/greeklish": "1.0.*"
+		"skapator/greeklish": "dev-master"
 	}
 }
 ```
