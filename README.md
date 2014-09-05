@@ -41,20 +41,31 @@ Now add the alias.
 
 ```php
     $text = 'Γεια σου Κόσμε';
-    Greeklish::make($text)
+    Greeklish::slug($text)
 
     Will make:
     `geia-sou-kosme`
 ```
 
 
+-- Make a greeklish text.
+
+```php
+    $text = 'Γεια σου Κόσμε';
+    Greeklish::text($text)
+
+    Will make:
+    `Geia sou kosme`
+```
+
+
 -- Extra arguments.
 
 ```php
-    Greeklish::make($text, true)
+    Greeklish::text($text, true)
     // will remove one letter words
 
-    Greeklish::make($text, false, true)
+    Greeklish::slug($text, false, true)
     //will remove two letter words
 ```
 
