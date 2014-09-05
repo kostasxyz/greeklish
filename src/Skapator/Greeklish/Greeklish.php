@@ -126,7 +126,8 @@ class Greeklish {
         if ($stop_two == true )
             $text = $this->stopTwo($text);
 
-        $text = preg_replace( array('/&.*?;/', '/\s+/', '/[^a-z0-9_\.\-]/u'),  array(' ', '-', ''), $text );
+        $text = preg_replace( array('/&.*?;/', '/\s+/', '/[^A-Za-z0-9_\.\-]/u'),  array(' ', '-', ''), $text );
+        $text = filter_var(strtolower($text), FILTER_SANITIZE_URL);
 
         return $text;
     }
