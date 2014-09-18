@@ -129,7 +129,7 @@ class Greeklish {
         $text = preg_replace( array('/&.*?;/', '/\s+/', '/[^A-Za-z0-9_\.\-]/u'),  array(' ', '-', ''), $text );
         $text = filter_var(strtolower($text), FILTER_SANITIZE_URL);
 
-        return $text;
+        return \Str::lug($text);
     }
 
     /**
