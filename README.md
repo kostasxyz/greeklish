@@ -1,72 +1,79 @@
 # Greeklish
 
-Convert Greek characters to latin and make greeklish slugs.
+Convert Greek text to latin characters and generate clean, URL-friendly slugs for Laravel.
 
-## Quick Installation
+Vowels follow the **ELOT 743 / ISO 843** letter-preserving rules (`αι→ai`, `ει→ei`, `οι→oi`, `υι→yi`, `υ→y`), with the `αυ`/`ευ`/`ηυ` voicing rules (`αυτός → aftos`, `ευρώ → evro`), accent and diaeresis stripping, and guillemet removal. Greek names transcribe as on a passport — `Αικατερίνη → aikaterini`, `Ειρήνη → eirini`, `Οικονόμου → oikonomou`.
 
-To install through composer, simply put the following in your `composer.json` file:
+## Requirements
 
-```json
-{
-	"require": {
-		"skapator/greeklish": "dev-master"
-	}
-}
+- PHP 8.2+
+- Laravel 12 or 13
+
+## Installation
+
+```bash
+composer require kostasch/greeklish
 ```
 
-Run `composer update` to pull down the latest version.
-
-Now open up `app/config/app.php` and add the service provider to your `providers` array.
-
-```php
-    'providers' => array(
-        ...
-        'Skapator\Greeklish\GreeklishServiceProvider',
-    )
-```
-
-Now add the alias.
-
-```php
-    'aliases' => array(
-        ...
-        'Greeklish' => 'Skapator\Greeklish\Facades\Greeklish',
-    )
-```
-
+The service provider and the `Greeklish` facade are registered automatically through Laravel package discovery — no configuration required.
 
 ## Usage
 
--- Make Slug.
-
 ```php
-    $text = 'Γεια σου Κόσμε';
-    Greeklish::slug($text)
+use Kostasch\Greeklish\Facades\Greeklish;
 
-    Will make:
-    `geia-sou-kosme`
+Greeklish::make('Γεια σου Κόσμε');   // "geia sou kosme"
+Greeklish::text('Γεια σου Κόσμε');   // "geia sou kosme"
+Greeklish::slug('Γεια σου Κόσμε');   // "geia-sou-kosme"
 ```
 
+### `make()`
 
--- Make a greeklish text.
-
-```php
-    $text = 'Γεια σου Κόσμε';
-    Greeklish::text($text)
-
-    Will make:
-    `Geia sou kosme`
-```
-
-
--- Extra arguments.
+Raw transliteration of Greek to latin, leaving spacing and punctuation in place.
 
 ```php
-    Greeklish::text($text, true)
-    // will remove one letter words
-
-    Greeklish::slug($text, false, true)
-    //will remove two letter words
+Greeklish::make('Καλημέρα!'); // "kalimera!"
 ```
 
---
+### `text()`
+
+Transliteration with optional stripping of short words.
+
+```php
+Greeklish::text('ο σκύλος μου');           // "o skylos mou"
+Greeklish::text('ο σκύλος μου', true);      // "skylos mou"  (drops one-letter words)
+Greeklish::text('το σπίτι', false, true);   // "spiti"       (drops two-letter words)
+```
+
+### `slug()`
+
+Builds a URL-friendly slug. `stopOne` defaults to `true`, so one-letter words are dropped.
+
+```php
+Greeklish::slug('Άρθρο για την Ελλάδα'); // "arthro-gia-tin-ellada"
+Greeklish::slug('ο σκύλος μου');          // "skylos-mou"
+Greeklish::slug('ο σκύλος μου', false);   // "o-skylos-mou"
+```
+
+### Without the facade
+
+The class is bound in the container and can be resolved or injected directly:
+
+```php
+use Kostasch\Greeklish\Greeklish;
+
+public function store(Greeklish $greeklish): void
+{
+    $slug = $greeklish->slug($request->title);
+}
+```
+
+## Testing
+
+```bash
+composer test
+```
+
+## License
+
+The MIT License (MIT). Please see [LICENSE.md](LICENSE.md) for more information.

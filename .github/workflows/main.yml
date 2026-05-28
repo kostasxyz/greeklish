@@ -1,0 +1,47 @@
+name: run-tests
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                php: [8.2, 8.3, 8.4, 8.5]
+                laravel: [12, 13]
+                exclude:
+                    - php: 8.2
+                      laravel: 13
+        name: PHP ${{ matrix.php }} / Laravel ${{ matrix.laravel }}
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, fileinfo
+                  coverage: none
+
+            - name: Constrain to Laravel ${{ matrix.laravel }}
+              run: |
+                  composer require --no-update \
+                      "illuminate/support:^${{ matrix.laravel }}.0"
+                  composer require --dev --no-update \
+                      "orchestra/testbench:^${{ matrix.laravel == 12 && '10.0' || '11.0' }}"
+
+            - name: Install dependencies
+              run: composer update --prefer-dist --no-interaction
+
+            - name: Validate package metadata
+              run: composer validate --no-check-publish
+
+            - name: Execute test suite
+              run: composer test
