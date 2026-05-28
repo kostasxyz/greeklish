@@ -6,7 +6,7 @@ Vowels follow the **ELOT 743 / ISO 843** letter-preserving rules (`αι→ai`, `
 
 ## Requirements
 
-- PHP 8.2+
+- PHP 8.3+
 - Laravel 12 or 13
 
 ## Installation

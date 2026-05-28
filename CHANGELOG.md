@@ -2,6 +2,13 @@
 
 All notable changes to `greeklish` will be documented in this file.
 
+## v1.0.1 - 2026-05-28
+
+### Changed
+
+- Raised the minimum PHP requirement to **8.3**. The v1.0.0 `^8.2` claim was inaccurate: the dev test suite (Pest 4) requires PHP `^8.3`, so the PHP 8.2 CI job in v1.0.0 could never install dependencies. The package code itself uses no 8.3-only syntax — runtime on 8.2 would have worked, but supporting it would require pinning Pest to 3.x. Bumping the constraint reflects the real supported floor.
+- Trimmed the CI matrix from `8.2–8.5 × {12,13}` to `8.3–8.5 × {12,13}` (six green jobs instead of seven with one persistently red).
+
 ## v1.0.0 - 2026-05-28
 
 First modern release. Revived from the abandoned `skapator/greeklish` (Laravel 4, 2014) and rebuilt for Laravel 12/13 and PHP 8.2+.
